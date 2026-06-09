@@ -240,7 +240,17 @@
             color: #555;
             font-size: 1rem;
         }
+/* --- 🔴 커스텀 마우스 커서 (빨간색 점) --- */
+        
+        /* 1. 기본 마우스 커서 (작은 빨간 점) */
+        * {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="4" fill="%23FF0000"/></svg>') 10 10, auto !important;
+        }
 
+        /* 2. 클릭 가능한 요소에 마우스를 올렸을 때 (살짝 커지는 반투명 빨간 점) */
+        a, .project-card, .logo {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><circle cx="12" cy="12" r="8" fill="%23FF0000" fill-opacity="0.6"/></svg>') 12 12, pointer !important;
+        }
     </style>
 </head>
 <body>
