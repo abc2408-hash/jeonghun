@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OOO | Architecture & Design Portfolio</title>
+    <style>
+        /* 기본 스타일 설정 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #fafafa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 네비게이션 바 */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 50px;
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav .logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #555;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #000;
+            font-weight: bold;
+        }
+
+        /* 메인 섹션 (Hero) */
+        .hero {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: #e0e0e0; /* 임시 배경색 (건축물 사진으로 교체 추천) */
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: 5px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+        }
+
+        /* 소개 섹션 */
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        /* 포트폴리오 그리드 */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .portfolio-item {
+            background: #fff;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .portfolio-img {
+            width: 100%;
+            height: 250px;
+            background-color: #ccc; /* 임시 이미지 색상 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+        }
+
+        .portfolio-info {
+            padding: 20px;
+        }
+
+        .portfolio-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .portfolio-info p {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        /* 푸터 (연락처) */
+        footer {
+            background-color: #222;
+            color: #fff;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: #bbb;
+        }
+
+        footer a {
+            color: #fff;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 상단 네비게이션 -->
+    <nav>
+        <div class="logo">ARCHI.PORTFOLIO</div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- 메인 타이틀 영역 -->
+    <header id="home" class="hero">
+        <h1>공간에 가치를 더하다</h1>
+        <p>건축가 / 설계 디자이너 OOO의 포트폴리오입니다.<br>빛과 공간, 그리고 사람을 잇는 설계를 지향합니다.</p>
+    </header>
+
+    <!-- 포트폴리오 프로젝트 영역 -->
+    <section id="projects" class="container">
+        <h2 class="section-title">Selected Works</h2>
+        <div class="portfolio-grid">
+            <!-- 프로젝트 1 -->
+            <div class="portfolio-item">
+                <div class="portfolio-img">[프로젝트 1 이미지]</div>
+                <div class="portfolio-info">
+                    <h3>도심 속 공유 오피스 설계</h3>
+                    <p>2025 | 상업시설 | 서울</p>
+                </div>
+            </div>
+            <!-- 프로젝트 2 -->
+            <div class="portfolio-item">
+                <div class="portfolio-img">[프로젝트 2 이미지]</div>
+                <div class="portfolio-info">
+                    <h3>자연과 어우러진 주택</h3>
+                    <p>2024 | 주거시설 | 제주</p>
+                </div>
+            </div>
+            <!-- 프로젝트 3 -->
+            <div class="portfolio-item">
+                <div class="portfolio-img">[프로젝트 3 이미지]</div>
+                <div class="portfolio-info">
+                    <h3>복합 문화 공간 리모델링</h3>
+                    <p>2023 | 공공시설 | 부산</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 하단 연락처 영역 -->
+    <footer id="contact">
+        <h2 style="margin-bottom: 20px; font-weight: 300;">Let's Work Together</h2>
+        <p>Email : <a href="mailto:your-email@example.com">your-email@example.com</a></p>
+        <p>Phone : 010-1234-5678</p>
+        <p style="margin-top: 30px; font-size: 0.8rem;">&copy; 2026 OOO. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
