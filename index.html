@@ -3,259 +3,323 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OOO | Architecture & Design Portfolio</title>
+    <title>건축 설계 포트폴리오</title>
+    
+    <!-- 굵은 고딕체 폰트 (Noto Sans KR 700, 900) 불러오기 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700;900&display=swap" rel="stylesheet">
+    
     <style>
-        /* 1. 기본 스타일 */
+        /* 변수 설정: 메인 컬러 및 배경 */
+        :root {
+            --main-green: #00FF33; /* 쨍한 초록색 */
+            --bg-color: #121212;   /* 건축의 모던함을 살리는 다크 배경 */
+            --text-color: #ffffff;
+            --text-muted: #aaaaaa;
+        }
+
+        /* 기본 초기화 및 부드러운 스크롤 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Noto Sans KR', 'Helvetica Neue', Arial, sans-serif;
-        }
-        
-        body {
-            background-color: #fafafa;
-            color: #333;
-            line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            scroll-behavior: smooth;
         }
 
-        /* 2. 네비게이션 바 */
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 700; /* 전체 기본 폰트를 굵게 설정 */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* 헤더 & 네비게이션바 */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(18, 18, 18, 0.95);
+            border-bottom: 2px solid var(--main-green);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
         nav {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             padding: 20px 50px;
-            background-color: #fff;
-            border-bottom: 1px solid #eee;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        nav .logo {
-            font-weight: 700;
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            cursor: pointer;
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--main-green);
             text-decoration: none;
-            color: #333;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
         nav ul {
-            list-style: none;
             display: flex;
-            gap: 30px;
+            list-style: none;
+            gap: 40px;
         }
 
-        nav a {
+        nav ul li a {
+            color: var(--text-color);
             text-decoration: none;
-            color: #555;
-            font-size: 0.9rem;
+            font-size: 1.2rem;
+            text-transform: uppercase;
             transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--main-green);
+        }
+
+        /* 공통 섹션 레이아웃 */
+        section {
+            padding: 150px 50px 100px;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h2.section-title {
+            font-weight: 900;
+            font-size: 5rem;
+            color: transparent;
+            -webkit-text-stroke: 2px var(--main-green); /* 글자 테두리만 초록색으로 표현하여 설계 도면 느낌 부여 */
+            margin-bottom: 50px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+
+        p.desc {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin-bottom: 20px;
+            word-break: keep-all;
+        }
+
+        /* 1. ABOUT 섹션 */
+        #about {
+            border-left: 10px solid var(--main-green);
+            padding-left: 50px;
+        }
+
+        #about h3 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--main-green);
+        }
+
+        /* 2. PROJECT 섹션 */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .project-card {
+            border: 2px solid var(--main-green);
+            padding: 40px;
+            transition: all 0.3s ease;
+            background-color: #1a1a1a;
+            position: relative;
+            overflow: hidden;
             cursor: pointer;
         }
 
-        nav a:hover, nav a.active-link {
-            color: #000;
-            font-weight: bold;
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--main-green);
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.4s ease;
+            z-index: 0;
         }
 
-        /* 3. 화면 전환(페이지) 공통 설정 */
-        .page-section {
-            display: none; /* 기본적으로 모든 페이지 숨김 */
-            flex: 1;
-            animation: fadeIn 0.5s ease;
+        .project-card:hover::before {
+            transform: scaleY(1);
         }
 
-        .page-section.active {
-            display: block; /* active 클래스가 붙은 페이지만 보임 */
+        .project-card * {
+            position: relative;
+            z-index: 1;
+            transition: color 0.4s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .project-card:hover h3, .project-card:hover p {
+            color: var(--bg-color);
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 60px 20px;
+        .project-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            font-weight: 900;
+            color: var(--text-color);
         }
 
-        .section-title {
-            text-align: left;
+        /* 3. AWARD 섹션 */
+        .award-list {
+            list-style: none;
+            border-top: 2px solid #333;
+        }
+
+        .award-list li {
+            padding: 40px 0;
+            border-bottom: 2px solid #333;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .award-list li:hover {
+            border-bottom-color: var(--main-green);
+            transform: translateX(20px);
+        }
+
+        .award-year {
             font-size: 2rem;
-            margin-bottom: 40px;
-            font-weight: 300;
-            letter-spacing: 2px;
-            border-left: 4px solid #333;
-            padding-left: 15px;
+            color: var(--main-green);
+            font-weight: 900;
+            width: 150px;
         }
 
-        /* 4. Home (Hero) 페이지 디자인 */
-        #home {
-            /* Home은 가운데 정렬을 위해 flex 사용 */
-            display: none; 
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        .award-title {
+            font-size: 1.5rem;
+            color: var(--text-color);
+        }
+
+        /* 4. CONTACT 섹션 */
+        #contact {
             text-align: center;
-            background-color: #e0e0e0; 
-            min-height: calc(100vh - 145px); /* 헤더, 푸터 제외한 높이 꽉 채우기 */
-        }
-        #home.active {
-            display: flex; 
-        }
-        #home h1 { font-size: 3rem; font-weight: 300; margin-bottom: 20px; letter-spacing: 5px; }
-        #home p { font-size: 1.2rem; color: #666; max-width: 600px; }
-
-        /* 5. About 페이지 디자인 */
-        .about-content {
-            display: flex;
-            gap: 50px;
             align-items: center;
         }
-        .about-image {
-            flex: 1;
-            height: 400px;
-            background-color: #ccc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #888;
+
+        #contact h2.section-title {
+            -webkit-text-stroke: 0;
+            color: var(--main-green);
         }
-        .about-text { flex: 1; font-size: 1.1rem; }
-        .about-text h3 { margin-bottom: 15px; font-size: 1.5rem; }
 
-        /* 6. Projects 페이지 디자인 */
-        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .portfolio-item { background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.3s ease; }
-        .portfolio-item:hover { transform: translateY(-10px); }
-        .portfolio-img { width: 100%; height: 250px; background-color: #ccc; display: flex; align-items: center; justify-content: center; color: #888; }
-        .portfolio-info { padding: 20px; }
-        .portfolio-info h3 { font-size: 1.2rem; margin-bottom: 10px; }
-
-        /* 7. Contact 페이지 디자인 */
-        .contact-box {
-            text-align: center;
-            background: #fff;
-            padding: 50px;
-            border: 1px solid #eee;
+        .contact-info {
+            font-size: 3rem;
+            margin-top: 30px;
+            font-weight: 900;
         }
-        .contact-box h3 { font-size: 1.5rem; margin-bottom: 20px; }
-        .contact-box p { font-size: 1.2rem; margin-bottom: 10px; color: #555; }
 
-        /* 8. 푸터 */
+        .contact-info a {
+            color: var(--text-color);
+            text-decoration: none;
+            border-bottom: 5px solid var(--main-green);
+            transition: color 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            color: var(--main-green);
+        }
+
+        /* 푸터 */
         footer {
-            background-color: #222;
-            color: #fff;
             text-align: center;
-            padding: 20px;
-            font-size: 0.9rem;
-            margin-top: auto; /* 내용이 적어도 항상 맨 아래 고정 */
+            padding: 40px;
+            background-color: #000;
+            color: #555;
+            font-size: 1rem;
         }
+
     </style>
 </head>
 <body>
 
-    <nav>
-        <a class="logo nav-link" onclick="showPage('home')">ARCHI.PORTFOLIO</a>
-        <ul>
-            <li><a class="nav-link active-link" onclick="showPage('home')" id="link-home">Home</a></li>
-            <li><a class="nav-link" onclick="showPage('about')" id="link-about">About</a></li>
-            <li><a class="nav-link" onclick="showPage('projects')" id="link-projects">Projects</a></li>
-            <li><a class="nav-link" onclick="showPage('contact')" id="link-contact">Contact</a></li>
+    <!-- 헤더 / 네비게이션 -->
+    <header>
+        <nav>
+            <a href="#" class="logo">ARCHI.PORTFOLIO</a>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#project">Project</a></li>
+                <li><a href="#award">Award</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 1. ABOUT 섹션 -->
+    <section id="about">
+        <h2 class="section-title">About</h2>
+        <h3>공간에 가치를 더하는 건축가, 홍길동입니다.</h3>
+        <p class="desc">
+            건축은 단순한 구조물을 넘어 사람과 환경이 소통하는 매개체라고 믿습니다.<br>
+            빛과 그림자, 그리고 동선을 고려한 미니멀하고 기능적인 설계를 추구하며,<br>
+            지속 가능한 공간을 만들어가는 과정에 끊임없이 질문을 던집니다.
+        </p>
+    </section>
+
+    <!-- 2. PROJECT 섹션 -->
+    <section id="project">
+        <h2 class="section-title">Project</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <h3>Seoul Cultural Center</h3>
+                <p class="desc">복합 문화 공간 설계. 도심 속 자연광을 끌어들이는 중정 구조를 채택하여 시민들의 휴식 공간을 조성했습니다.</p>
+            </div>
+            <div class="project-card">
+                <h3>The Minimalist Villa</h3>
+                <p class="desc">제주도 프라이빗 주거 공간. 주변 자연환경과 어우러지는 노출 콘크리트와 수직 루버를 활용한 입면 디자인.</p>
+            </div>
+            <div class="project-card">
+                <h3>Urban Office Tower</h3>
+                <p class="desc">강남구 오피스 빌딩. 에너지 효율을 극대화한 친환경 파사드와 유연한 모듈형 업무 공간을 기획했습니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. AWARD 섹션 -->
+    <section id="award">
+        <h2 class="section-title">Award</h2>
+        <ul class="award-list">
+            <li>
+                <div class="award-year">2025</div>
+                <div class="award-title">한국건축문화대상 우수상 (Seoul Cultural Center)</div>
+            </li>
+            <li>
+                <div class="award-year">2023</div>
+                <div class="award-title">국제 공간 디자인 어워드 - Best Residential Design</div>
+            </li>
+            <li>
+                <div class="award-year">2021</div>
+                <div class="award-title">젊은 건축가상 수상</div>
+            </li>
         </ul>
-    </nav>
-
-    <section id="home" class="page-section active">
-        <h1>공간에 가치를 더하다</h1>
-        <p>건축가 / 설계 디자이너 OOO의 포트폴리오입니다.<br>빛과 공간, 그리고 사람을 잇는 설계를 지향합니다.</p>
     </section>
 
-    <section id="about" class="page-section container">
-        <h2 class="section-title">About Me</h2>
-        <div class="about-content">
-            <div class="about-image">[본인 사진 또는 프로필 이미지]</div>
-            <div class="about-text">
-                <h3>OOO (Hong Gildong)</h3>
-                <p>건축과 사람의 유기적인 관계를 연구하며, 지속 가능한 설계를 고민합니다.</p>
-                <br>
-                <p><strong>Education</strong><br>- OO대학교 건축학과 학사 (2018 - 2022)</p>
-                <br>
-                <p><strong>Experience</strong><br>- OO건축사사무소 인턴 (2023)<br>- 제OO회 건축디자인 공모전 대상 (2022)</p>
-            </div>
+    <!-- 4. CONTACT 섹션 -->
+    <section id="contact">
+        <h2 class="section-title">Let's Work Together</h2>
+        <p class="desc">새로운 공간에 대한 아이디어가 있으신가요? 언제든 연락주세요.</p>
+        <div class="contact-info">
+            <a href="mailto:hello@architecture.com">hello@architecture.com</a>
         </div>
     </section>
 
-    <section id="projects" class="page-section container">
-        <h2 class="section-title">Selected Works</h2>
-        <div class="portfolio-grid">
-            <div class="portfolio-item">
-                <div class="portfolio-img">[프로젝트 1 이미지]</div>
-                <div class="portfolio-info">
-                    <h3>도심 속 공유 오피스 설계</h3>
-                    <p>2025 | 상업시설 | 서울</p>
-                </div>
-            </div>
-            <div class="portfolio-item">
-                <div class="portfolio-img">[프로젝트 2 이미지]</div>
-                <div class="portfolio-info">
-                    <h3>자연과 어우러진 주택</h3>
-                    <p>2024 | 주거시설 | 제주</p>
-                </div>
-            </div>
-            <div class="portfolio-item">
-                <div class="portfolio-img">[프로젝트 3 이미지]</div>
-                <div class="portfolio-info">
-                    <h3>복합 문화 공간 리모델링</h3>
-                    <p>2023 | 공공시설 | 부산</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="page-section container">
-        <h2 class="section-title">Contact</h2>
-        <div class="contact-box">
-            <h3>Let's Work Together</h3>
-            <p>프로젝트 제안이나 협업 문의는 언제든 환영합니다.</p>
-            <br>
-            <p><strong>Email:</strong> your-email@example.com</p>
-            <p><strong>Phone:</strong> 010-1234-5678</p>
-        </div>
-    </section>
-
+    <!-- 푸터 -->
     <footer>
-        &copy; 2026 OOO. All Rights Reserved.
+        &copy; 2026 Architecture Portfolio. All rights reserved.
     </footer>
-
-    <script>
-        function showPage(pageId) {
-            // 1. 모든 페이지 섹션 숨기기
-            const pages = document.querySelectorAll('.page-section');
-            pages.forEach(page => {
-                page.classList.remove('active');
-            });
-
-            // 2. 모든 메뉴 링크에서 글씨 굵게(active-link) 효과 제거
-            const links = document.querySelectorAll('.nav-link');
-            links.forEach(link => {
-                link.classList.remove('active-link');
-            });
-
-            // 3. 클릭한 페이지만 보여주기
-            document.getElementById(pageId).classList.add('active');
-
-            // 4. 클릭한 메뉴 링크만 글씨 굵게 만들기 (로고 제외)
-            const activeLink = document.getElementById('link-' + pageId);
-            if(activeLink) {
-                activeLink.classList.add('active-link');
-            }
-        }
-    </script>
 
 </body>
 </html>
